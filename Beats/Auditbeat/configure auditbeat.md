@@ -6,9 +6,9 @@
 #### Search for output.elasticsearch and comment-out the lines as follows:
 ```yaml
 [...]
-#output.elasticsearch:
+output.elasticsearch:
   # Array of hosts to connect to.
-  #hosts: ["YOUR-IP:9200"]
+  hosts: ["YOUR-IP:9200"]
 [...]
 ```
 
