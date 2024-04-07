@@ -1,23 +1,34 @@
-#Change the following settings 
+# Elasticsearch Configuration
 
-Uncomment and edit the following lines in the /etc/elasticsearch/elasticsearch.yml file to reflect the example below. 
-#This will limit the Elasticsearch connection to localhost.
-network.host: 127.0.0.1 
+Uncomment and edit the following lines in the `/etc/elasticsearch/elasticsearch.yml` file to reflect the example below. 
+This will limit the Elasticsearch connection to localhost.
 
-#or you can access without proxy pass or nginx
+### Change the following settings 
+```yaml
+network.host: 127.0.0.1
+```
+
+#### or you can access without proxy pass or nginx
+```yaml
 network.host: 0.0.0.0
+```
 
-#or can use your private ip
+#### or can use your private ip
+```yaml
 network.host: 192.168.XXX.XXX
+```
 
+```yaml
 http.port:9200
+```
 
-
-Run the following command to verify whether Elasticsearch is running:
+#### Run the following command to verify whether Elasticsearch is running:
+```bash
 curl -X GET "YOUR-IP:9200"
+```
 
-
-The output should be similar to this example:
+#### The output should be similar to this example:
+```bash
 {
   "name" : "elastic-stack",
   "cluster_name" : "elasticsearch",
@@ -35,29 +46,34 @@ The output should be similar to this example:
   },
   "tagline" : "You Know, for Search"
 }
+```
 
-Start the elasticsearch:
+#### Start the elasticsearch:
+```bash
 systemctl start elasticsearch
 systemctl stop elasticsearch
 systemctl status elasticsearch
 systemctl restart elasticsearch
+```
 
-###########################################################  With Nginx Proxy-Pass  ##################################################################
+## With Nginx Proxy-Pass  
 
-Install nginx as a proxy to Kibana:
+#### Install nginx as a proxy to Kibana:
+```bash
 apt install -y nginx
-
+```
 
 Use OpenSSL to create a user and password for the Elastic Stack interface. This command 
 generates a htpasswd file, containing the user kibana and a password you are prompted to create.
+```bash
 echo "kibana:`openssl passwd -apr1`" | tee -a /etc/nginx/htpasswd.users
+```
 
+#### Edit the /etc/nginx/sites-available/elastic.local file and paste the following content to create a proxy to Kibana.
+ ##### Important:
 
-Edit the /etc/nginx/sites-available/elastic.local file and paste the following content to create a proxy to Kibana.
- Important:
-
-Replace elastic.local with the domain name of your Instance:
-
+#### Replace elastic.local with the domain name of your Instance:
+```bash
     server {
       listen 80;
       server_name elastic.local;
@@ -75,18 +91,19 @@ Replace elastic.local with the domain name of your Instance:
       }
 
     }
+```
 
-
-Create a symbolic link to enable the site in nginx:
+#### Create a symbolic link to enable the site in nginx:
+```bash
 ln -s /etc/nginx/sites-available/elastic.local /etc/nginx/sites-enabled/elastic.local
+```
 
-
-Reload the nginx configuration to activate the proxy: 
+#### Reload the nginx configuration to activate the proxy: 
+```bash
 systemctl restart nginx
+```
 
-You can now access your Elastic Dashboard using your domain name, for example http://elastic.local:
+#### You can now access your Elastic Dashboard using your domain name, for example http://elastic.local:
 
-
-##############################################################################################################################################
-
-Or you can just refer to the config file that i attached!
+> [!NOTE]
+> Or you can just refer to the config file that i attached!
