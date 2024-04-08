@@ -1,0 +1,52 @@
+Hot data node : 
+Hot data nodes are part of the hot tier. The hot tier is the Elasticsearch entry point for time series data and holds your most-recent, 
+most-frequently-searched time series data.
+
+Add the following configuration to config file.
+/etc/elasticsearch/elasticsearch.yml
+
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+cluster.name: elk-cluster
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+node.name: hot-node
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+#
+node.roles: [ data_hot ]
+# ---------------------------------- Network -----------------------------------
+#
+# By default Elasticsearch is only accessible on localhost. Set a different
+# address here to expose this node on the network:
+#
+network.host: 0.0.0.0
+#
+# By default Elasticsearch listens for HTTP traffic on the first free port it
+# finds starting at 9200. Set a specific HTTP port here:
+#
+http.port: 9200
+#
+# For more information, consult the network module documentation.
+#
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#
+discovery.seed_hosts: ["192.168.1.176", "192.168.1.134", "192.168.1.175", "192.168.1.110"]
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+cluster.initial_master_nodes: ["192.168.1.176"]
+#
+# For more information, consult the discovery and cluster formation module documentation.
+
+save and resart.

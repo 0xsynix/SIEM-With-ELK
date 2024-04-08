@@ -1,0 +1,61 @@
+Warm data node : 
+Warm data nodes are part of the warm tier. 
+Time series data can move to the warm tier once it is being queried less frequently than the recently-indexed data in the hot tier.
+
+
+Add the following configuration to config file.
+/etc/elasticsearch/elasticsearch.yml
+
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+cluster.name: elk-cluster
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+node.name: warm-node
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+#
+node.roles: [ data_warm ]
+# ---------------------------------- Network -----------------------------------
+#
+# By default Elasticsearch is only accessible on localhost. Set a different
+# address here to expose this node on the network:
+#
+network.host: 0.0.0.0
+#
+# By default Elasticsearch listens for HTTP traffic on the first free port it
+# finds starting at 9200. Set a specific HTTP port here:
+#
+http.port: 9200
+#
+# For more information, consult the network module documentation.
+#
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#
+discovery.seed_hosts: ["192.168.1.176", "192.168.1.134", "192.168.1.175", "192.168.1.110"]
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+cluster.initial_master_nodes: ["192.168.1.176"]
+#
+# For more information, consult the discovery and cluster formation module documentation.
+
+save and resart.
+
+
+You can also add the data node insted of hot node or warm node by this config:
+Data Node : 
+Data nodes hold the shards that contain the documents you have indexed. 
+Data nodes handle data related operations like CRUD, search, and aggregations. 
+
+node.roles: [ data ]

@@ -1,0 +1,71 @@
+Coordinator Node : 
+
+If you take away the ability to be able to handle master duties, to hold data, and pre-process documents, 
+then you are left with a coordinating node that can only route requests, handle the search reduce phase, 
+and distribute bulk indexing. Essentially, coordinating only nodes behave as smart load balancers.
+
+Add the following Configuration to config file
+/etc/elasticsearch/elasticsearch.yml
+
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+cluster.name: elk-cluster
+#
+# ------------------------------------ Node ------------------------------------# ---------------------------------- Network -----------------------------------
+#
+# By default Elasticsearch is only accessible on localhost. Set a different
+# address here to expose this node on the network:
+#
+network.host: 0.0.0.0
+#
+# By default Elasticsearch listens for HTTP traffic on the first free port it
+# finds starting at 9200. Set a specific HTTP port here:
+#
+http.port: 9200
+#
+# For more information, consult the network module documentation.
+#
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#
+discovery.seed_hosts: ["192.168.1.176", "192.168.1.134", "192.168.1.175", "192.168.1.110"] //all nodes host ips
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+cluster.initial_master_nodes: ["192.168.1.176"] //master node IP
+#
+# For more information, consult the discovery and cluster formation module documentation.
+#
+#
+# Use a descriptive name for the node:
+#
+node.name: cordinator
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+#
+node.roles: [ ]
+
+
+By default, a node gets the master and data role. So if you have started it already, 
+it should already contain some data, and thus, cannot be transformed to a master node unless you first move all the data it contains on another node.
+
+You first need to decommission the node by running this command (use the right IP address for your node) 
+in order to move all the data it contains on other data nodes:
+
+
+PUT _cluster/settings
+{
+  "transient" : {
+    "cluster.routing.allocation.exclude._ip" : "10.0.0.1"
+  }
+}
+
+When the node doesn't contain any data anymore, you can shut it down, change node.roles to master and restart it.
+
+save and Restart the elasticsearch.
