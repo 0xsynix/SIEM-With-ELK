@@ -1,7 +1,7 @@
 ⚠️ **Important Notice:** 
 > This repository is no longer actively maintained and may contain outdated versions and configurations. While the provided documentation and configuration files may still serve as valuable references, it is recommended to verify compatibility with the latest versions of Elasticsearch, Kibana, Beats modules, and Zeek before proceeding with any implementations.
 
-# LogOps-Toolkit
+# SIEM With ELK
 
 This repository contains configurations and guides for setting up Elasticsearch, Kibana, Beats modules, Zeek, and automated installation scripts.
 
